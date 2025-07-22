@@ -2,9 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package Dao;
+package UI;
 
 import static DB_Connection.DBConnection.getConnection;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.sql.Statement;
 import java.sql.Connection;
 import javax.swing.table.DefaultTableModel;
@@ -20,7 +22,7 @@ public class NhanVienForm extends javax.swing.JPanel {
      */
     public NhanVienForm() {
         initComponents();
-        loadNhanVien();
+           loadNhanVien();
     }
 
     public void loadNhanVien() {

@@ -2,18 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package Dao;
+package UI;
 
 /**
  *
  * @author canbi
  */
-public class HoaDonDao extends javax.swing.JPanel {
+public class HoaDonForm extends javax.swing.JPanel {
 
     /**
      * Creates new form HoaDonDao
      */
-    public HoaDonDao() {
+    public HoaDonForm() {
         
         initComponents();
     }

@@ -21,7 +21,7 @@ public class DBConnection {
             // Cấu hình URL kết nối
             String url = "jdbc:sqlserver://localhost:1433;databaseName=CuaHangTruyenTranh;encrypt=false";
             String user = "sa";       // tài khoản SQL Server
-            String password = "123456"; // mật khẩu SQL Server
+            String password = "Yen29032005"; // mật khẩu SQL Server
 
             // Kết nối
             return DriverManager.getConnection(url, user, password);

@@ -4,37 +4,44 @@
  */
 package UI;
 
-import javax.swing.JFrame;
 import javax.swing.*;
+import java.awt.*;
 
 /**   
  *
  * @author 5410
  */
 public class Form extends JFrame{
+        private JPanel contentPanel; 
+
        public Form() {
         setTitle("Quản lý cửa hàng truyện tranh");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
 
+        // Menu
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("Quản lý");
 
         JMenuItem nhanVienItem = new JMenuItem("Nhân viên");
-        nhanVienItem.addActionListener(e -> setPanel(new Dao.NhanVienForm()));
+        nhanVienItem.addActionListener(e -> setPanel(new NhanVienForm()));
 
         menu.add(nhanVienItem);
         menuBar.add(menu);
         setJMenuBar(menuBar);
 
-        // Mặc định
-        setPanel(new JPanel()); // hoặc welcome panel
+        // Khởi tạo contentPanel mặc định
+        contentPanel = new JPanel(new BorderLayout());
+        add(contentPanel, BorderLayout.CENTER);
     
-}
+    }
+
         private void setPanel(JPanel panel) {
-        getContentPane().removeAll();
-        getContentPane().add(panel);
+        getContentPane().remove(contentPanel);
+        contentPanel = panel;
+        getContentPane().add(contentPanel, BorderLayout.CENTER);
         revalidate();
         repaint();
     }
