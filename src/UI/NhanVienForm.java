@@ -23,6 +23,7 @@ public class NhanVienForm extends javax.swing.JPanel {
     public NhanVienForm() {
         initComponents();
            loadNhanVien();
+           
     }
 
     public void loadNhanVien() {
@@ -339,7 +340,7 @@ public class NhanVienForm extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 796, Short.MAX_VALUE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(46, 46, 46))
         );

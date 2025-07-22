@@ -15,35 +15,35 @@ public class Form extends JFrame{
         private JPanel contentPanel; 
 
        public Form() {
-        setTitle("Quản lý cửa hàng truyện tranh");
-        setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+         setTitle("Quản lý cửa hàng truyện tranh");
+    setSize(800, 600);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setLocationRelativeTo(null);
+    setLayout(new BorderLayout());
 
-        // Menu
-        JMenuBar menuBar = new JMenuBar();
-        JMenu menu = new JMenu("Quản lý");
+    // Menu
+    JMenuBar menuBar = new JMenuBar();
+    JMenu menu = new JMenu("Quản lý");
+    JMenuItem nhanVienItem = new JMenuItem("Nhân viên");
+    nhanVienItem.addActionListener(e -> setPanel(new NhanVienForm()));
 
-        JMenuItem nhanVienItem = new JMenuItem("Nhân viên");
-        nhanVienItem.addActionListener(e -> setPanel(new NhanVienForm()));
+    menu.add(nhanVienItem);
+    menuBar.add(menu);
+    setJMenuBar(menuBar);
 
-        menu.add(nhanVienItem);
-        menuBar.add(menu);
-        setJMenuBar(menuBar);
+    // Default Panel
+    setPanel(new NhanVienForm());  // Load giao diện nhân viên luôn
 
-        // Khởi tạo contentPanel mặc định
-        contentPanel = new JPanel(new BorderLayout());
-        add(contentPanel, BorderLayout.CENTER);
-    
+    pack();  // tự căn chỉnh kích thước theo nội dung
+    setVisible(true);
     }
 
         private void setPanel(JPanel panel) {
-        getContentPane().remove(contentPanel);
-        contentPanel = panel;
-        getContentPane().add(contentPanel, BorderLayout.CENTER);
-        revalidate();
-        repaint();
+    getContentPane().removeAll();
+    getContentPane().add(panel, BorderLayout.CENTER);
+    revalidate();
+    repaint();
+    pack(); 
     }
          public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Form().setVisible(true));
