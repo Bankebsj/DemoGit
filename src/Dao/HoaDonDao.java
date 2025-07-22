@@ -14,6 +14,7 @@ public class HoaDonDao extends javax.swing.JPanel {
      * Creates new form HoaDonDao
      */
     public HoaDonDao() {
+        
         initComponents();
     }
 
@@ -30,11 +31,11 @@ public class HoaDonDao extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 923, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 452, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
