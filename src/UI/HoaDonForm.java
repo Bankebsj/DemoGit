@@ -3,21 +3,131 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package UI;
-
+import com.toedter.calendar.JDateChooser;
+import static DB_Connection.DBConnection.getConnection;
+import java.util.ArrayList;
+import Entity.Hoa_Don;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author canbi
  */
 public class HoaDonForm extends javax.swing.JPanel {
+        JTable table;
+    DefaultTableModel model;
 
     /**
      * Creates new form HoaDonDao
      */
     public HoaDonForm() {
-        
         initComponents();
+        loadHoaDon();
+    }
+    private void timkiem(int maKH) {
+    DefaultTableModel model = (DefaultTableModel) TableHoaDon.getModel();
+    model.setRowCount(0); 
+
+    try (
+        Connection con = DB_Connection.DBConnection.getConnection();
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM HoaDon WHERE MaKhachHang = ?")
+    ) {
+        ps.setInt(1, maKH);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Object[] row = new Object[]{
+                rs.getInt("MaHoaDon"),
+                rs.getInt("MaKhachHang"),
+                rs.getInt("MaNhanVien"),
+                rs.getDate("NgayLap"),
+                rs.getBigDecimal("TongTien")
+            };
+            model.addRow(row);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Lỗi khi tìm hóa đơn theo mã KH");
+    }
     }
 
+    public void loadHoaDon(){
+        DefaultTableModel model = (DefaultTableModel) TableHoaDon.getModel();
+        model.setRowCount(0); // clear table
+        try (Connection con = DB_Connection.DBConnection.getConnection(); Statement stmt = con.createStatement(); ResultSet rs = stmt.executeQuery("SELECT * FROM HoaDon")) {
+
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                      rs.getInt("MaHoaDon"),
+        rs.getInt("MaKhachHang"),
+        rs.getInt("MaNhanVien"),
+        rs.getDate("NgayLap"),
+        rs.getBigDecimal("TongTien")
+                });
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void loadChitietHoaDon(int MaHoaDon){
+        DefaultTableModel model = (DefaultTableModel) TableChiTietHoaDon.getModel();
+    model.setRowCount(0);
+
+    try (Connection con = DB_Connection.DBConnection.getConnection();
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM ChiTietHoaDon WHERE MaHoaDon = ?")) {
+        ps.setInt(1, MaHoaDon);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("MaHoaDon"),
+                rs.getString("MaTruyen"),
+                rs.getInt("SoLuong"),
+                rs.getBigDecimal("DonGia")
+            });
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    }
+    
+    public void loadhoadontheongay(Date tuNgay, Date denNgay){
+        DefaultTableModel model = (DefaultTableModel) TableHoaDon.getModel();
+    model.setRowCount(0); 
+
+    String sql = "SELECT * FROM HoaDon WHERE NgayLap BETWEEN ? AND ?";
+
+    try (Connection con = DB_Connection.DBConnection.getConnection();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setDate(1, new java.sql.Date(tuNgay.getTime()));
+        ps.setDate(2, new java.sql.Date(denNgay.getTime()));
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("MaHoaDon"),
+                rs.getInt("MaKhachHang"),
+                rs.getInt("MaNhanVien"),
+                rs.getDate("NgayLap"),
+                rs.getBigDecimal("TongTien")
+            });
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    }
+      public static void main(String[] args) {
+        getConnection(); // Gọi thử kết nối
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,19 +137,264 @@ public class HoaDonForm extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TableHoaDon = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        TableChiTietHoaDon = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        dateStart = new com.toedter.calendar.JDateChooser();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        dateEnd = new com.toedter.calendar.JDateChooser();
+        jLabel5 = new javax.swing.JLabel();
+        txtTimKiem = new javax.swing.JTextField();
+        btnLoc = new javax.swing.JButton();
+        btnTimKiem = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setText("QUẢN LÝ HÓA ĐƠN ");
+
+        TableHoaDon.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Mã Hóa Đơn ", "Mã Khách Hàng", "Mã Nhân Viên ", "Ngày Lập", "Tổng Tiền"
+            }
+        ));
+        TableHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableHoaDonMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(TableHoaDon);
+
+        TableChiTietHoaDon.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Mã Hóa Đơn", "Mã Truyện ", "Số Lượng", "Đơn Giá"
+            }
+        ));
+        jScrollPane3.setViewportView(TableChiTietHoaDon);
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setText("CHI TIẾT HÓA ĐƠN ");
+
+        jLabel3.setText("Ngày bắt đầu ");
+
+        jLabel4.setText("Ngày kết thúc");
+
+        jLabel5.setText("Tìm kiếm : ");
+
+        txtTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTimKiemActionPerformed(evt);
+            }
+        });
+
+        btnLoc.setText("Lọc hóa đơn");
+        btnLoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLocActionPerformed(evt);
+            }
+        });
+
+        btnTimKiem.setText("Tìm kiếm");
+        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimKiemActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Làm mới");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 923, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(375, 375, 375)
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dateStart, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnLoc)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 201, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(86, 86, 86))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(327, 327, 327))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 452, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(22, 24, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dateStart, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dateEnd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(24, 24, 24))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(15, 15, 15)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnTimKiem)
+                                    .addComponent(jButton2)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addComponent(btnLoc)))
+                        .addGap(18, 18, 18)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTimKiemActionPerformed
+
+    private void TableHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableHoaDonMouseClicked
+    int selectedRow = TableHoaDon.getSelectedRow();
+    if (selectedRow != -1) {
+        int maHoaDon = (int) TableHoaDon.getValueAt(selectedRow, 0); 
+        loadChitietHoaDon(maHoaDon);
+    }
+    }//GEN-LAST:event_TableHoaDonMouseClicked
+
+    private void btnLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLocActionPerformed
+        // TODO add your handling code here:
+                Date ngayBatDau = dateStart.getDate();
+        Date ngayKetThuc = dateEnd.getDate();
+
+        if (ngayBatDau != null && ngayKetThuc != null) {
+            loadhoadontheongay(ngayBatDau, ngayKetThuc);
+        } else {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn cả ngày bắt đầu và ngày kết thúc!");
+        }
+
+    }//GEN-LAST:event_btnLocActionPerformed
+
+    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
+        // TODO add your handling code here:
+          String input = txtTimKiem.getText().trim();
+    if (input.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập mã khách hàng cần tìm!");
+        return;
+    }
+
+    try {
+        int maKH = Integer.parseInt(input);
+        timkiem(maKH);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Mã khách hàng phải là số nguyên!");
+    }
+    }//GEN-LAST:event_btnTimKiemActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    txtTimKiem.setText("");
+     dateEnd.setDate(null);
+    dateStart.setDate(null);
+
+    loadHoaDon();
+
+    DefaultTableModel model = (DefaultTableModel) TableChiTietHoaDon.getModel();
+    model.setRowCount(0); 
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable TableChiTietHoaDon;
+    private javax.swing.JTable TableHoaDon;
+    private javax.swing.JButton btnLoc;
+    private javax.swing.JButton btnTimKiem;
+    private com.toedter.calendar.JDateChooser dateEnd;
+    private com.toedter.calendar.JDateChooser dateStart;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 }

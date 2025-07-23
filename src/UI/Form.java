@@ -14,27 +14,30 @@ import java.awt.*;
 public class Form extends JFrame{
         private JPanel contentPanel; 
 
-       public Form() {
-         setTitle("Quản lý cửa hàng truyện tranh");
+    public Form() {
+        
+    setTitle("Quản lý cửa hàng truyện tranh");
     setSize(800, 600);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setLocationRelativeTo(null);
     setLayout(new BorderLayout());
-
-    // Menu
+    
     JMenuBar menuBar = new JMenuBar();
     JMenu menu = new JMenu("Quản lý");
+    
     JMenuItem nhanVienItem = new JMenuItem("Nhân viên");
     nhanVienItem.addActionListener(e -> setPanel(new NhanVienForm()));
+    
+     JMenuItem hoadonItem = new JMenuItem("Hóa Đơn");
+    hoadonItem.addActionListener(e -> setPanel(new HoaDonForm()));
+
 
     menu.add(nhanVienItem);
+    menu.add(hoadonItem);
     menuBar.add(menu);
     setJMenuBar(menuBar);
-
-    // Default Panel
-    setPanel(new NhanVienForm());  // Load giao diện nhân viên luôn
-
-    pack();  // tự căn chỉnh kích thước theo nội dung
+    setPanel(new NhanVienForm()); 
+    pack(); 
     setVisible(true);
     }
 
