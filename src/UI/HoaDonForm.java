@@ -330,11 +330,13 @@ public class HoaDonForm extends javax.swing.JPanel {
     }//GEN-LAST:event_txtTimKiemActionPerformed
 
     private void TableHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableHoaDonMouseClicked
-    int selectedRow = TableHoaDon.getSelectedRow();
-    if (selectedRow != -1) {
-        int maHoaDon = (int) TableHoaDon.getValueAt(selectedRow, 0); 
-        loadChitietHoaDon(maHoaDon);
-    }
+int selectedRow = TableHoaDon.getSelectedRow();
+if (selectedRow != -1) {
+    Object value = TableHoaDon.getValueAt(selectedRow, 0);
+    int maHoaDon = Integer.parseInt(value.toString());
+    loadChitietHoaDon(maHoaDon);
+}
+
     }//GEN-LAST:event_TableHoaDonMouseClicked
 
     private void btnLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLocActionPerformed

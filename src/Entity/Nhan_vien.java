@@ -15,16 +15,14 @@ public class Nhan_vien {
     private String soDT;
     private String taiKhoan;
     private String matKhau;
-    private String vaiTro;
 
-    public Nhan_vien(String maNV, String tenNV, String chucVu, String soDT, String taiKhoan, String matKhau, String vaiTro) {
+    public Nhan_vien(String maNV, String tenNV, String chucVu, String soDT, String taiKhoan, String matKhau) {
         this.maNV = maNV;
         this.tenNV = tenNV;
         this.chucVu = chucVu;
         this.soDT = soDT;
         this.taiKhoan = taiKhoan;
         this.matKhau = matKhau;
-        this.vaiTro = vaiTro;
     }
 
     public String getMaNV() {
@@ -75,12 +73,5 @@ public class Nhan_vien {
         this.matKhau = matKhau;
     }
 
-    public String getVaiTro() {
-        return vaiTro;
-    }
-
-    public void setVaiTro(String vaiTro) {
-        this.vaiTro = vaiTro;
-    }
     
 }
