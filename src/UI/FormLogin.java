@@ -22,6 +22,9 @@ public class FormLogin extends javax.swing.JFrame {
         initComponents();
         setTitle("Quản lý cửa hàng truyện tranh");
         setLocationRelativeTo(null);
+        
+        
+        
     }
 
     /**
@@ -135,11 +138,15 @@ public class FormLogin extends javax.swing.JFrame {
             ps.setString(2, matKhau);
             ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
-                JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
+        if (rs.next()) {
+            JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
 
-                new Form().setVisible(true);
-                this.dispose();
+            Integer maNV = rs.getInt("MaNhanVien");
+            String tenNV = rs.getString("TenNhanVien");
+
+                   new Form(maNV, tenNV).setVisible(true);
+            this.dispose();
+
             } else {
                 JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu!");
             }
